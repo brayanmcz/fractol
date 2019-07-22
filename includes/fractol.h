@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:40:02 by bcastro           #+#    #+#             */
-/*   Updated: 2019/07/20 19:23:26 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/07/22 10:35:58 by brayancastr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define FRACTOL_H
 # include "../minilibx/mlx.h"
 # include "../libft/libft.h"
-# include "./parse.h"
-# include "./error.h"
+# include <pthread.h>
 # include <math.h>
 # include "stdio.h" //DELETE THIS
 
@@ -51,11 +50,13 @@ typedef struct	s_fractol
 	t_view		view;
 	t_mbrot 	mbrot;
 	int			max_iter;
+	int			iter;
+	long double	x;
+	long double y;
 	int			zoom;
 	void		*mlx_ptr;
 	void		*win_ptr;
+	char 		*name;
 }				t_fractol;
-
-
 
 #endif
