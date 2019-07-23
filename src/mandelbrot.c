@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
+/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 20:05:52 by bcastro           #+#    #+#             */
-/*   Updated: 2019/07/22 11:26:37 by brayancastr      ###   ########.fr       */
+/*   Updated: 2019/07/22 18:04:35 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
+# define PARAMS(chunk) (void *)&frac, (void*)chunk
 
 int createRGB(int r, int g, int b)
 {   
@@ -31,7 +32,7 @@ int calc_color(int iter, int max_iter)
 	return (createRGB(r,g,b));
 }
 
-void fractol_test(int Px, int Py, long double x0, long double y0, t_fractol fractol)
+void fractol_test(int Px, int Py, t_fractol fractol)
 {
 	long double rsquare = 0;
 	long double isquare = 0;
@@ -40,43 +41,50 @@ void fractol_test(int Px, int Py, long double x0, long double y0, t_fractol frac
 	fractol.iter = 0;
 	fractol.x = 0;
 	fractol.y = 0;
-
 	while (rsquare + isquare <= 4  &&  fractol.iter < fractol.max_iter)
 	{
-		fractol.x = rsquare - isquare + x0;
-		fractol.y = zsquare - rsquare - isquare + y0;
+		fractol.x = rsquare - isquare + fractol.mbrot.val_x;
+		fractol.y = zsquare - rsquare - isquare + fractol.mbrot.val_y;
 		rsquare = fractol.x*fractol.x;
 		isquare = fractol.y*fractol.y;
 		zsquare = (fractol.x + fractol.y)*(fractol.x + fractol.y);
 		fractol.iter++;
 	}
-
 	int color = calc_color(fractol.iter, fractol.max_iter);
-
 	mlx_pixel_put(fractol.mlx_ptr, fractol.win_ptr, Px, Py, color);
 }
 
-void display_mandlebrot_chunk(t_fractol *frac)
+void *display_mandlebrot_chunk(void *param)
 {
+	t_fractol *frac;
+	void **params;
+
+	params = param;
+
+	frac = (t_fractol *)params[0];
+
 	unsigned int w_iter;
 	unsigned int h_iter;
 
-	h_iter = 0;
+	h_iter = (unsigned int)params[1];
 
-	while (h_iter < frac.window.height)
+
+	while (h_iter < (unsigned int)params[1] + 100)
 	{
-		frac.mbrot.val_x = frac.view.x.min;
+		printf("h_iter: %u \n", h_iter);
+		frac->mbrot.val_x = frac->view.x.min;
 		w_iter = 0;
-		while (w_iter < frac.window.width)
+		while (w_iter < frac->window.width)
 		{
-			fractol_test(w_iter, h_iter, frac.mbrot.val_x, frac.mbrot.val_y, frac);
-			frac.mbrot.val_x += frac.mbrot.x_delta;
+			fractol_test(w_iter, h_iter, *frac);
+			frac->mbrot.val_x += frac->mbrot.x_delta;
 			w_iter++;
 		}
-		frac.mbrot.val_y += frac.mbrot.y_delta;
+		frac->mbrot.val_y += frac->mbrot.y_delta;
 		h_iter++;
 	}
 
+	return (frac);
 }
 
 t_fractol	display_mandlebrot(t_fractol frac)
@@ -89,7 +97,14 @@ t_fractol	display_mandlebrot(t_fractol frac)
 	(long double)frac.window.height;
 	frac.mbrot.val_y = frac.view.y.min;
 
-	pthread_create(&thread_id[0], NULL, &display_mandlebrot_chunk, &frac);
+	pthread_create(&thread_id[0], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(0)});
+	pthread_create(&thread_id[1], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(100)});
+	pthread_create(&thread_id[2], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(200)});
+	pthread_create(&thread_id[3], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(300)});
+	pthread_join(thread_id[0], NULL);
+	pthread_join(thread_id[1], NULL);
+	pthread_join(thread_id[2], NULL);
+	pthread_join(thread_id[3], NULL);
 
 	return (frac);
 }

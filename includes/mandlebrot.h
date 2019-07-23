@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandlebrot.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
+/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 21:47:38 by brayancastr       #+#    #+#             */
-/*   Updated: 2019/07/21 21:58:38 by brayancastr      ###   ########.fr       */
+/*   Updated: 2019/07/22 18:01:54 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
