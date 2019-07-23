@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 20:05:52 by bcastro           #+#    #+#             */
-/*   Updated: 2019/07/22 18:04:35 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/07/22 22:18:33 by brayancastr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,13 @@ void *display_mandlebrot_chunk(void *param)
 
 	h_iter = (unsigned int)params[1];
 
-
 	while (h_iter < (unsigned int)params[1] + 100)
 	{
-		printf("h_iter: %u \n", h_iter);
 		frac->mbrot.val_x = frac->view.x.min;
 		w_iter = 0;
 		while (w_iter < frac->window.width)
 		{
+			printf("h_iter: %u, val_x %Lf \n", h_iter, frac->mbrot.val_x);
 			fractol_test(w_iter, h_iter, *frac);
 			frac->mbrot.val_x += frac->mbrot.x_delta;
 			w_iter++;
@@ -97,14 +96,14 @@ t_fractol	display_mandlebrot(t_fractol frac)
 	(long double)frac.window.height;
 	frac.mbrot.val_y = frac.view.y.min;
 
-	pthread_create(&thread_id[0], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(0)});
+	// pthread_create(&thread_id[0], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(0)});
 	pthread_create(&thread_id[1], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(100)});
-	pthread_create(&thread_id[2], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(200)});
-	pthread_create(&thread_id[3], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(300)});
-	pthread_join(thread_id[0], NULL);
+	// pthread_create(&thread_id[2], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(200)});
+	// pthread_create(&thread_id[3], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(300)});
+	// pthread_join(thread_id[0], NULL);
 	pthread_join(thread_id[1], NULL);
-	pthread_join(thread_id[2], NULL);
-	pthread_join(thread_id[3], NULL);
+	// pthread_join(thread_id[2], NULL);
+	// pthread_join(thread_id[3], NULL);
 
 	return (frac);
 }
