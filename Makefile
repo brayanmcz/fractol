@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+         #
+#    By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/03 20:05:48 by bcastro           #+#    #+#              #
-#    Updated: 2019/07/22 00:10:01 by brayancastr      ###   ########.fr        #
+#    Updated: 2019/07/23 00:34:01 by bcastro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
