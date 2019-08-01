@@ -6,7 +6,7 @@
 #    By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/03 20:05:48 by bcastro           #+#    #+#              #
-#    Updated: 2019/07/23 00:34:01 by bcastro          ###   ########.fr        #
+#    Updated: 2019/07/31 20:41:43 by bcastro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ all:
 	@echo "MINILIBX:"
 	@$(MAKE) -C $(MINILIBX_DIR)
 	@echo "FDF:"
-	@gcc -Wall -Wextra -Werror $(SRCS) $(LIBS) -framework OpenGL -framework AppKit -o fractol
+	@gcc -Wall -Wextra -Werror $(SRCS) $(LIBS) -framework OpenGL -framework AppKit -o fractol -g
 	@echo "$(GREEN) ✓ Fractol: Created executable 'fractol' $(NOC)"
 
 re: fclean all

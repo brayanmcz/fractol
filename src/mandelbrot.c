@@ -6,7 +6,7 @@
 /*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 20:05:52 by bcastro           #+#    #+#             */
-/*   Updated: 2019/07/23 15:44:26 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/07/31 21:27:43 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,14 @@ t_fractol	display_mandlebrot(t_fractol frac)
 	frac.mbrot.val_y = frac.view.y.min;
 
 	// pthread_create(&thread_id[0], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(0)});
-	pthread_create(&thread_id[1], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(100)});
-	// pthread_create(&thread_id[2], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(200)});
+	// pthread_create(&thread_id[1], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(100)});
+	pthread_create(&thread_id[2], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(200)});
 	// pthread_create(&thread_id[3], NULL, &display_mandlebrot_chunk, (void*[2]){PARAMS(300)});
 
 	// pthread_join(thread_id[0], NULL);
-	pthread_join(thread_id[1], NULL);
-	// pthread_join(thread_id[2], NULL);
+	// pthread_join(thread_id[1], NULL);
+	pthread_join(thread_id[2], NULL);
 	// pthread_join(thread_id[3], NULL);
-
 
 	return (frac);
 }
