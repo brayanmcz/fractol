@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
+/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 20:05:52 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/01 15:19:53 by brayancastr      ###   ########.fr       */
+/*   Updated: 2019/08/01 20:30:10 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void fractol_test(int Px, int Py, t_fractol fractol, int thread)
 		fractol.iter[thread]++;
 	}
 	int color = calc_color(fractol.iter[thread], fractol.max_iter);
-	mlx_pixel_put(fractol.mlx_ptr, fractol.win_ptr, Px, Py, color);
+	mlx_pixel_put(fractol.mlx_ptr[thread], fractol.win_ptr[thread], Px, Py, color);
 }
 
 void *display_mandlebrot_chunk(void *param)
@@ -96,13 +96,13 @@ t_fractol	display_mandlebrot(t_fractol frac)
 
 	pthread_create(&thread_id[0], NULL, &display_mandlebrot_chunk, (void*[3]){PARAMS(0, 0)});
 	pthread_create(&thread_id[1], NULL, &display_mandlebrot_chunk, (void*[3]){PARAMS(100, 1)});
-	pthread_create(&thread_id[2], NULL, &display_mandlebrot_chunk, (void*[3]){PARAMS(200, 2)});
-	pthread_create(&thread_id[3], NULL, &display_mandlebrot_chunk, (void*[3]){PARAMS(300, 3)});
+	// pthread_create(&thread_id[2], NULL, &display_mandlebrot_chunk, (void*[3]){PARAMS(200, 2)});
+	// pthread_create(&thread_id[3], NULL, &display_mandlebrot_chunk, (void*[3]){PARAMS(300, 3)});
 
 	pthread_join(thread_id[0], NULL);
 	pthread_join(thread_id[1], NULL);
-	pthread_join(thread_id[2], NULL);
-	pthread_join(thread_id[3], NULL);
+	// pthread_join(thread_id[2], NULL);
+	// pthread_join(thread_id[3], NULL);
 
 	return (frac);
 }

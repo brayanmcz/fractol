@@ -6,7 +6,7 @@
 /*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 19:13:29 by bcastro           #+#    #+#             */
-/*   Updated: 2019/07/23 15:43:53 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/01 20:44:11 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,29 @@ t_fractol init_window(t_fractol fractol, int height, int width)
 	fractol.window.height = height;
 	fractol.window.width = width;
 	fractol.max_iter = 1000;
-	fractol.mlx_ptr = mlx_init();
-	fractol.win_ptr = mlx_new_window(
+	fractol.mlx_ptr[0] = mlx_init();
+	fractol.mlx_ptr[1] = mlx_init();
+	fractol.mlx_ptr[2] = mlx_init();
+	fractol.mlx_ptr[3] = mlx_init();
+	fractol.win_ptr[0] = mlx_new_window(
+		fractol.mlx_ptr,
+		fractol.window.width,
+		fractol.window.height,
+		fractol.name
+	);
+	fractol.win_ptr[1] = mlx_new_window(
+		fractol.mlx_ptr,
+		fractol.window.width,
+		fractol.window.height,
+		fractol.name
+	);
+	fractol.win_ptr[2] = mlx_new_window(
+		fractol.mlx_ptr,
+		fractol.window.width,
+		fractol.window.height,
+		fractol.name
+	);
+	fractol.win_ptr[3] = mlx_new_window(
 		fractol.mlx_ptr,
 		fractol.window.width,
 		fractol.window.height,

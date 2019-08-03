@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
+/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:40:02 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/01 15:14:53 by brayancastr      ###   ########.fr       */
+/*   Updated: 2019/08/01 20:29:57 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ typedef struct	s_fractol
 	long double	x[4];
 	long double y[4];
 	int			zoom;
-	void		*mlx_ptr;
-	void		*win_ptr;
+	void		*mlx_ptr[4];
+	void		*win_ptr[4];
 	char 		*name;
 }				t_fractol;
 
