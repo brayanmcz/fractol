@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 19:08:31 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/02 17:10:31 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/04 18:07:52 by brayancastr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void init_mandelbrot(t_program prog)
 {
     prog.max_iter = 0;
     t_mlx	mlx;
-	int		count_w;
-	int		count_h;
+	unsigned int		count_w;
+	unsigned int		count_h;
 
 	count_h = -1;
 	mlx.mlx_ptr = mlx_init();
