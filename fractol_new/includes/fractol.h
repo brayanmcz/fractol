@@ -6,7 +6,7 @@
 /*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 17:18:05 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/02 17:09:53 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/05 12:22:24 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef enum	e_fractol
 */
 typedef struct	s_image
 {
-	void		*img_ptr;
-	int			*img_data;
+	void		*ptr;
+	int			*data;
 	int			width_len;
 	int			bits_per_pixel;
 	int			endian;

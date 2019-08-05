@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
+/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 18:39:20 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/04 18:15:17 by brayancastr      ###   ########.fr       */
+/*   Updated: 2019/08/05 15:27:35 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ t_program init_program(void)
 	ZOOM = 0;
 	HT = 600;
 	WT = 800;
-	NAME = "Fractol";
-	MLX = mlx_init();
-	WIN = mlx_new_window(MLX, WT, HT, NAME);
-	ITER = 500;
-
 	return (prog);
 }
 
