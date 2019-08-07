@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 18:39:20 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/05 15:27:35 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/06 22:56:25 by brayancastr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_program init_program(void)
 {
 	t_program prog;
 	ZOOM = 0;
-	HT = 600;
-	WT = 800;
+	HT = 400;
+	WT = 700;
 	return (prog);
 }
 

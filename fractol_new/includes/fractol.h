@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 17:18:05 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/05 12:22:24 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/06 21:25:32 by brayancastr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ typedef struct	s_window
 	unsigned int	height;
 	unsigned int	width;
 	char			*name;
+	long double		dx;
+	long double 	dy;
+	long double 	vx;
+	long double 	vy;
 }				t_window;
 
 /*

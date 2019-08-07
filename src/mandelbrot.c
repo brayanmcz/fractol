@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
+/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 20:05:52 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/01 20:30:10 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/06 23:05:45 by brayancastr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ t_fractol	display_mandlebrot(t_fractol frac)
 {
 	pthread_t thread_id[4];
 
-	frac.mbrot.x_delta = (frac.view.x.max - frac.view.x.min) /
-	(long double)frac.window.width;
-	frac.mbrot.y_delta = (frac.view.y.max - frac.view.y.min) /
-	(long double)frac.window.height;
+	frac.mbrot.x_delta = (frac.view.x.max - frac.view.x.min) / (long double)frac.window.width;
+	frac.mbrot.y_delta = (frac.view.y.max - frac.view.y.min) / (long double)frac.window.height;
 	frac.mbrot.val_y[0] = frac.view.y.min;
 	frac.mbrot.val_y[1] = frac.view.y.min;
 	frac.mbrot.val_y[2] = frac.view.y.min;
