@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
+/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 19:08:31 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/07 00:10:25 by brayancastr      ###   ########.fr       */
+/*   Updated: 2019/08/09 12:40:02 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,53 @@
 #include "../includes/mandelbrot.h"
 # define PARAMS(chunk) (void *)&prog, (void*)chunk
 
-// void color_pixel(int *img, int x, int y, int color, int size_line, int bpp)
-// }
-
-int createRGB(int r, int g, int b)
-{   
-    return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+int	createRGB(int r, int g, int b)
+{
+	return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
 
-int calc_color(int iter, int max_iter)
+int	calc_color(int iter, int max_iter)
 {
 	long double t;
 	int r;
- 	int g;
- 	int b;
+	int g;
+	int b;
 
- 	t = (long double)iter / (long double)max_iter;
+	t = (long double)iter / (long double)max_iter;
 	r = (9*(1-t)*t*t*t*255);
- 	g = (15*(1-t)*(1-t)*t*t*255);
- 	b = (8.5*(1-t)*(1-t)*(1-t)*t*255);
-	return (createRGB(r,g,b));
+	g = (15*(1-t)*(1-t)*t*t*255);
+	b = (8.5*(1-t)*(1-t)*(1-t)*t*255);
+	return (createRGB(r, g, b));
 }
 
-int mandelbrot_test(t_program prog)
+int	mandelbrot_test(t_program prog)
 {
-	long double rsqr, isqr, zsqr, x, y;
-	int iter, color;
+	long double rsqr = 0;
+	long double isqr = 0;
+	long double zsqr = 0;
 
-	rsqr = 0;
-	isqr = 0;
-	zsqr = 0;
-	iter = 0;
-	x = 0;
-	y = 0;
-
-	while(rsqr + isqr <= 4 && iter < prog.max_iter)
+	int iter = 0;
+	long double x = 0;
+	long double y = 0;
+	while (rsqr + isqr <= 4 && iter < prog.max_iter)
 	{
 		x = rsqr - isqr + prog.win.vx;
 		y = zsqr - rsqr - isqr + prog.win.vy;
 		rsqr = x * x;
 		isqr = y * y;
-		zsqr = (x + y)*(x + y);
+		zsqr = (x + y) * (x + y);
 		iter++;
 	}
-	color = calc_color(iter, prog.max_iter);
-	return (color);
+	return (calc_color(iter, prog.max_iter));
 }
 
-void *display_mandelbrot_chunk(void *params)
+void	*display_mandelbrot_chunk(void *params)
 {
+	t_program			prog;
+	void				**param;
 	unsigned int		count_w;
 	unsigned int		count_h;
 	int					start;
-	t_program			prog;
-	void				**param;
 
 	param = params;
 	prog = *(t_program *)param[0];
@@ -78,23 +71,21 @@ void *display_mandelbrot_chunk(void *params)
 		count_w = -1;
 		while (++count_w < WT)
 		{
-				prog.win.vx = prog.view.x.min + (count_w * prog.win.dx);
-				prog.win.vy = prog.view.y.min + (count_h * prog.win.dy);
-				prog.image.data[count_h * WT + count_w] = mandelbrot_test(prog);
+			prog.win.vx = prog.view.x.min + (count_w * prog.win.dx);
+			prog.win.vy = prog.view.y.min + (count_h * prog.win.dy);
+			prog.image.data[count_h * WT + count_w] = mandelbrot_test(prog);
 		}
 	}
-	return(param[0]);
+	return (param[0]);
 }
+
+
 
 void display_mandelbrot(t_program prog)
 {
+	printf("Displaying\n");
 	pthread_t thread[4];
 
-	prog.win.dx = (long double)(prog.view.x.max - prog.view.x.min) / (long double)prog.win.width;
-	prog.win.dy = (long double)(prog.view.y.max - prog.view.x.min) / (long double)prog.win.height;
-	printf("test: %d, %d \n", prog.win.width, prog.win.height);
-	prog.win.vy = prog.view.y.min;
-	prog.win.vx = prog.view.x.min;
 	pthread_create(&thread[0], NULL, display_mandelbrot_chunk, (void *[2]){PARAMS(0)});
 	pthread_create(&thread[1], NULL, display_mandelbrot_chunk, (void *[2]){PARAMS(1)});
 	pthread_create(&thread[2], NULL, display_mandelbrot_chunk, (void *[2]){PARAMS(2)});
@@ -103,6 +94,35 @@ void display_mandelbrot(t_program prog)
 	pthread_join(thread[1], NULL);
 	pthread_join(thread[2], NULL);
 	pthread_join(thread[3], NULL);
+}
+
+int mouse_pressed_zoom(int button, int x, int y, void *param)
+{
+	printf("x: %d, y: %d, button: %d\n", x, y, button);
+
+	button = button + 1;
+	x = x + 1;
+	y = y+1;
+	t_program *prog;
+	prog = (t_program *)param;
+	long double center_x = prog->view.x.min + (long double)((long double)x * prog->win.dx);
+	long double center_y = prog->view.y.min + (long double)((long double)y * prog->win.dy);
+
+	long double x_diff = prog->view.x.max - prog->view.x.min;
+	long double y_diff = prog->view.y.max - prog->view.y.min;
+
+	x_diff *= 0.9;
+	y_diff *= 0.9;
+
+	prog->view.y.max = center_y + (y_diff / 2);
+	prog->view.y.min = center_y - (y_diff / 2);
+	prog->view.x.max = center_x + (x_diff / 2);
+	prog->view.x.min = center_x - (x_diff / 2);
+
+
+	display_mandelbrot(*prog);
+
+	return (x);
 }
 
 void init_mandelbrot(t_program prog)
@@ -115,12 +135,21 @@ void init_mandelbrot(t_program prog)
 												&prog.image.bits_per_pixel,
 												&prog.image.width_len,
 												&prog.image.endian);
+
 	prog.view.x.min = -2.5;
 	prog.view.x.max = 1;
-	prog.view.y.min = -1.5;
+	
+	prog.view.y.min = -1;
 	prog.view.y.max = 1;
+	prog.win.dx = (long double)(prog.view.x.max - prog.view.x.min) / (long double)prog.win.width;
+	prog.win.dy = (long double)(prog.view.y.max - prog.view.y.min) / (long double)prog.win.height;
+	prog.win.vy = prog.view.y.min;
+	prog.win.vx = prog.view.x.min;
+	printf("test: %d, %d \n", prog.win.width, prog.win.height);
+
 
 	display_mandelbrot(prog);
 	mlx_put_image_to_window(prog.mlx_ptr, prog.win_ptr, prog.image.ptr, 0, 0);
+	mlx_mouse_hook(prog.win_ptr, &mouse_pressed_zoom, (void *)&prog);
 	mlx_loop(prog.mlx_ptr);
 }
