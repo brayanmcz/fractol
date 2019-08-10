@@ -6,7 +6,7 @@
 /*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 19:08:31 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/09 12:40:02 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/09 20:36:41 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	*display_mandelbrot_chunk(void *params)
 
 	param = params;
 	prog = *(t_program *)param[0];
+
+
 	start = (HT / 4) * (int)param[1];
 	count_h = start - 1;
 	while (++count_h < start + (HT / 4))
@@ -79,13 +81,14 @@ void	*display_mandelbrot_chunk(void *params)
 	return (param[0]);
 }
 
-
-
 void display_mandelbrot(t_program prog)
 {
-	printf("Displaying\n");
-	pthread_t thread[4];
+	// printf("minX: %Lf, maxX: %Lf, minX: %Lf, maxY: %Lf\n", prog.view.x.min, prog.view.x.max, prog.view.y.min, prog.view.y.max);
 
+	prog.win.dx = (long double)(prog.view.x.max - prog.view.x.min) / (long double)prog.win.width;
+	prog.win.dy = (long double)(prog.view.y.max - prog.view.y.min) / (long double)prog.win.height;
+
+	pthread_t thread[4];
 	pthread_create(&thread[0], NULL, display_mandelbrot_chunk, (void *[2]){PARAMS(0)});
 	pthread_create(&thread[1], NULL, display_mandelbrot_chunk, (void *[2]){PARAMS(1)});
 	pthread_create(&thread[2], NULL, display_mandelbrot_chunk, (void *[2]){PARAMS(2)});
@@ -98,15 +101,27 @@ void display_mandelbrot(t_program prog)
 
 int mouse_pressed_zoom(int button, int x, int y, void *param)
 {
-	printf("x: %d, y: %d, button: %d\n", x, y, button);
+	// printf("x: %d, y: %d\n", x, y);
 
-	button = button + 1;
-	x = x + 1;
-	y = y+1;
 	t_program *prog;
 	prog = (t_program *)param;
+
+	mlx_destroy_image(prog->mlx_ptr, prog->image.ptr);
+	mlx_clear_window(prog->mlx_ptr, prog->win_ptr);
+
+	prog->image.ptr = mlx_new_image(prog->mlx_ptr, prog->win.width, prog->win.height);
+	prog->image.data = (int *)mlx_get_data_addr(prog->image.ptr,
+												&prog->image.bits_per_pixel,
+												&prog->image.width_len,
+												&prog->image.endian);
+
+	button = button + 1;
+		prog->win.dx = (long double)(prog->view.x.max - prog->view.x.min) / (long double)prog->win.width;
+	prog->win.dy = (long double)(prog->view.y.max - prog->view.y.min) / (long double)prog->win.height;
 	long double center_x = prog->view.x.min + (long double)((long double)x * prog->win.dx);
 	long double center_y = prog->view.y.min + (long double)((long double)y * prog->win.dy);
+
+	printf("dX: %Lf, dY: %Lf, cX: %Lf, cY: %Lf \n", prog->win.dx, prog->win.dy, center_x, center_y);
 
 	long double x_diff = prog->view.x.max - prog->view.x.min;
 	long double y_diff = prog->view.y.max - prog->view.y.min;
@@ -119,15 +134,15 @@ int mouse_pressed_zoom(int button, int x, int y, void *param)
 	prog->view.x.max = center_x + (x_diff / 2);
 	prog->view.x.min = center_x - (x_diff / 2);
 
-
 	display_mandelbrot(*prog);
+	mlx_put_image_to_window(prog->mlx_ptr, prog->win_ptr, prog->image.ptr, 0, 0);
 
 	return (x);
 }
 
 void init_mandelbrot(t_program prog)
 {
-	prog.max_iter = 100;
+	prog.max_iter = 255;
 	prog.mlx_ptr = mlx_init();
 	prog.win_ptr = mlx_new_window(prog.mlx_ptr, WT, HT, "Fractol");
 	prog.image.ptr = mlx_new_image(prog.mlx_ptr, WT, HT);
@@ -135,21 +150,14 @@ void init_mandelbrot(t_program prog)
 												&prog.image.bits_per_pixel,
 												&prog.image.width_len,
 												&prog.image.endian);
-
-	prog.view.x.min = -2.5;
+	prog.view.x.min = -2;
 	prog.view.x.max = 1;
-	
 	prog.view.y.min = -1;
 	prog.view.y.max = 1;
-	prog.win.dx = (long double)(prog.view.x.max - prog.view.x.min) / (long double)prog.win.width;
-	prog.win.dy = (long double)(prog.view.y.max - prog.view.y.min) / (long double)prog.win.height;
-	prog.win.vy = prog.view.y.min;
-	prog.win.vx = prog.view.x.min;
-	printf("test: %d, %d \n", prog.win.width, prog.win.height);
-
 
 	display_mandelbrot(prog);
 	mlx_put_image_to_window(prog.mlx_ptr, prog.win_ptr, prog.image.ptr, 0, 0);
+
 	mlx_mouse_hook(prog.win_ptr, &mouse_pressed_zoom, (void *)&prog);
 	mlx_loop(prog.mlx_ptr);
 }
