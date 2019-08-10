@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brayancastro <brayancastro@student.42.f    +#+  +:+       +#+        */
+/*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 20:05:52 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/06 23:05:45 by brayancastr      ###   ########.fr       */
+/*   Updated: 2019/08/09 13:45:06 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ t_fractol	display_mandlebrot(t_fractol frac)
 int mouse_pressed_zoom(int button, int x, int y, void *param)
 {
 	button = button + 1;
-	x = x + 1;
-	y = y+1;
 	t_fractol *fractol;
 	fractol = (t_fractol *)param;
 	long double center_x = fractol->view.x.min + (long double)((long double)x * fractol->mbrot.x_delta);
@@ -126,8 +124,6 @@ int mouse_pressed_zoom(int button, int x, int y, void *param)
 	fractol->view.x.max = center_x + (x_diff / 2);
 	fractol->view.x.min = center_x - (x_diff / 2);
 
-
 	*fractol = display_mandlebrot(*fractol);
-
 	return (x);
 }
