@@ -6,7 +6,7 @@
 /*   By: bcastro <bcastro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 19:08:31 by bcastro           #+#    #+#             */
-/*   Updated: 2019/08/12 18:23:33 by bcastro          ###   ########.fr       */
+/*   Updated: 2019/08/12 20:14:09 by bcastro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,22 +106,12 @@ int mouse_pressed_zoom(int button, int x, int y, void *param)
 	t_program *prog;
 	prog = (t_program *)param;
 
-	// mlx_destroy_image(prog->mlx_ptr, prog->image.ptr);
-	// mlx_clear_window(prog->mlx_ptr, prog->win_ptr);
-
-	// prog->image.ptr = mlx_new_image(prog->mlx_ptr, prog->win.width, prog->win.height);
-	// prog->image.data = (int *)mlx_get_data_addr(prog->image.ptr,
-	// 											&prog->image.bits_per_pixel,
-	// 											&prog->image.width_len,
-	// 											&prog->image.endian);
-
 	button = button + 1;
-		prog->win.dx = (long double)(prog->view.x.max - prog->view.x.min) / (long double)prog->win.width;
+
+	prog->win.dx = (long double)(prog->view.x.max - prog->view.x.min) / (long double)prog->win.width;
 	prog->win.dy = (long double)(prog->view.y.max - prog->view.y.min) / (long double)prog->win.height;
 	long double center_x = prog->view.x.min + (long double)((long double)x * prog->win.dx);
 	long double center_y = prog->view.y.min + (long double)((long double)y * prog->win.dy);
-
-	// printf("dX: %Lf, dY: %Lf, cX: %Lf, cY: %Lf \n", prog->win.dx, prog->win.dy, center_x, center_y);
 
 	long double x_diff = prog->view.x.max - prog->view.x.min;
 	long double y_diff = prog->view.y.max - prog->view.y.min;
